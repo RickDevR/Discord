@@ -40,38 +40,43 @@
             background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
         }
         .tool-btn.active { background-color: #5865F2 !important; color: #ffffff !important; }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .floating-anim { animation: floatSlow 4s ease-in-out infinite; }
     </style>
 </head>
 <body class="h-full text-discord_text flex flex-col min-h-screen">
 
     <!-- Header Navigation -->
-    <header class="bg-discord_darkest border-b border-discord_sidebar px-6 py-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="showLandingPage()">
-            <div class="w-10 h-10 bg-discord_blurple rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg hover:scale-105 transition-transform">
+    <header class="bg-discord_darkest border-b border-discord_sidebar px-6 py-4 flex items-center justify-between sticky top-0 z-40 shadow-lg backdrop-blur-md bg-opacity-95">
+        <div class="flex items-center gap-3 cursor-pointer group" onclick="navigateTo('#home')">
+            <div class="w-10 h-10 bg-discord_blurple rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:scale-110 transition-transform">
                 🚀
             </div>
             <div>
                 <h1 class="font-bold text-base md:text-lg text-white leading-tight flex items-center gap-2">
                     Discord Emoji Forge
-                    <span class="text-[10px] bg-discord_green/20 text-discord_green px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Free Ultimate</span>
+                    <span class="text-[10px] bg-discord_green/20 text-discord_green px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider animate-pulse">Pro Active</span>
                 </h1>
-                <p class="text-xs text-discord_muted">Advanced Background Eraser, Animated GIFs & Discord Guide</p>
+                <p class="text-xs text-discord_muted">Advanced Background Eraser, Upscaler & GIF Studio</p>
             </div>
         </div>
         
-        <div class="flex items-center gap-3">
-            <button onclick="showLandingPage()" class="hidden sm:block px-4 py-2 rounded-xl text-xs font-semibold hover:bg-discord_sidebar text-discord_muted hover:text-white transition-colors">Home</button>
-            <button onclick="showGuideModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-discord_sidebar hover:bg-discord_dark text-white border border-discord_darkest flex items-center gap-1.5 transition-all">
-                <span>📖 Discord Guide</span>
+        <div class="flex items-center gap-2 md:gap-3">
+            <button onclick="navigateTo('#home')" class="hidden sm:block px-4 py-2 rounded-xl text-xs font-semibold hover:bg-discord_sidebar text-discord_muted hover:text-white transition-colors">Home</button>
+            <button onclick="navigateTo('#guide')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-discord_sidebar hover:bg-discord_dark text-white border border-discord_darkest flex items-center gap-1.5 transition-all">
+                <span>📖 Guide</span>
             </button>
-            <button onclick="showEditorPage()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-discord_blurple hover:bg-discord_blurple_hover text-white transition-all shadow-md flex items-center gap-2">
+            <button onclick="navigateTo('#studio')" class="px-4 py-2 rounded-xl text-xs font-semibold bg-discord_blurple hover:bg-discord_blurple_hover text-white transition-all shadow-md flex items-center gap-2 hover:scale-105">
                 <span>Studio</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
             
             <!-- User Authentication / Profile -->
             <div id="auth-container" class="flex items-center gap-2">
-                <button id="login-btn" onclick="handleGoogleSignIn()" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-discord_darkest hover:bg-gray-100 transition-all flex items-center gap-2 shadow-sm">
+                <button id="login-btn" onclick="handleGoogleSignIn()" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-discord_darkest hover:bg-gray-100 transition-all flex items-center gap-2 shadow-sm hover:scale-105">
                     <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.19v3.15C3.18 21.32 7.28 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.19C.43 8.1 0 9.99 0 12s.43 3.9 1.19 5.42l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.28 0 3.18 2.68 1.19 6.58l4.09 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
                     <span>Sign In</span>
                 </button>
@@ -79,7 +84,7 @@
                     <img id="user-avatar" src="" alt="Avatar" class="w-7 h-7 rounded-full object-cover">
                     <div class="hidden md:block text-left">
                         <p id="user-name" class="text-xs font-bold text-white leading-tight">User</p>
-                        <p class="text-[10px] text-discord_green font-semibold">Ultimate Creator</p>
+                        <p class="text-[10px] text-discord_green font-semibold">Pro Creator</p>
                     </div>
                     <button onclick="handleSignOut()" title="Sign Out" class="text-discord_muted hover:text-discord_red text-xs font-bold px-2 py-1 bg-discord_darkest rounded-lg transition-colors">Sign Out</button>
                 </div>
@@ -90,24 +95,24 @@
     <!-- MAIN APP CONTAINER -->
     <main class="flex-1 flex flex-col">
 
-        <!-- LANDING PAGE VIEW -->
-        <section id="landing-page" class="flex-1 flex flex-col items-center justify-center text-center p-6 max-w-5xl mx-auto py-16">
+        <!-- LANDING PAGE VIEW (#home) -->
+        <section id="landing-page" class="view-section flex-1 flex flex-col items-center justify-center text-center p-6 max-w-5xl mx-auto py-16">
             <div class="inline-flex items-center gap-2 bg-discord_sidebar border border-discord_darkest px-4 py-1.5 rounded-full text-xs text-discord_green font-semibold mb-6 animate-pulse shadow-sm">
-                <span>🟢 100% Free & Unlimited • Firestore Cloud Sync Active</span>
+                <span>🟢 Fully Free • Cloud Firestore Sync • Upscale Tool Active</span>
             </div>
             <h1 class="text-4xl md:text-7xl font-black text-white tracking-tight leading-none mb-6">
-                Create & Perfect Discord Emojis <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-discord_blurple via-indigo-400 to-discord_green">Without Limits</span>
+                Create & Upscale Discord Emojis <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-discord_blurple via-indigo-400 to-discord_green">Like a Pro</span>
             </h1>
             <p class="text-discord_muted text-base md:text-xl max-w-2xl mb-10 leading-relaxed">
-                Remove backgrounds with our smart magic wand, build custom animated GIF emojis, save to your cloud collection, and copy directly into Discord chats instantly!
+                Remove backgrounds instantly, upscale small images so they never look blurry on Discord, build animated GIFs, and copy straight into your chats!
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 w-full justify-center max-w-md mb-16">
-                <button onclick="showEditorPage()" class="px-8 py-4 bg-discord_blurple hover:bg-discord_blurple_hover text-white font-bold rounded-2xl shadow-xl transition-all hover:scale-105 flex items-center justify-center gap-3 text-base">
+                <button onclick="navigateTo('#studio')" class="px-8 py-4 bg-discord_blurple hover:bg-discord_blurple_hover text-white font-bold rounded-2xl shadow-xl transition-all hover:scale-105 flex items-center justify-center gap-3 text-base">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                     Launch Studio Workspace
                 </button>
-                <button onclick="showGuideModal()" class="px-8 py-4 bg-discord_sidebar hover:bg-discord_dark text-white font-bold rounded-2xl border border-discord_darkest transition-all hover:scale-105 flex items-center justify-center gap-2 text-base">
+                <button onclick="navigateTo('#guide')" class="px-8 py-4 bg-discord_sidebar hover:bg-discord_dark text-white font-bold rounded-2xl border border-discord_darkest transition-all hover:scale-105 flex items-center justify-center gap-2 text-base">
                     <span>📖 Discord Guide</span>
                 </button>
             </div>
@@ -115,14 +120,14 @@
             <!-- Features Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left w-full mt-4">
                 <div class="bg-discord_sidebar p-6 rounded-2xl border border-discord_darkest hover:border-discord_blurple/50 transition-all group">
-                    <div class="w-12 h-12 bg-discord_blurple/20 text-discord_blurple rounded-2xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition-transform">🪄</div>
-                    <h3 class="text-white font-bold text-base mb-2">Smart Magic Wand & Eraser</h3>
-                    <p class="text-discord_muted text-xs leading-relaxed">Advanced flood-fill background removal with adjustable tolerance and smooth manual brush erasing.</p>
+                    <div class="w-12 h-12 bg-discord_blurple/20 text-discord_blurple rounded-2xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition-transform">🔍</div>
+                    <h3 class="text-white font-bold text-base mb-2">Pro Emoji Resizer & Upscaler</h3>
+                    <p class="text-discord_muted text-xs leading-relaxed">Make tiny images bigger and crisper so they stand out clearly in Discord channels.</p>
                 </div>
                 <div class="bg-discord_sidebar p-6 rounded-2xl border border-discord_darkest hover:border-discord_green/50 transition-all group">
-                    <div class="w-12 h-12 bg-discord_green/20 text-discord_green rounded-2xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition-transform">🎞️</div>
-                    <h3 class="text-white font-bold text-base mb-2">Animated GIF Maker</h3>
-                    <p class="text-discord_muted text-xs leading-relaxed">Combine multiple frames, add spin/pulse/bounce motion effects, and export high-performance animated emojis.</p>
+                    <div class="w-12 h-12 bg-discord_green/20 text-discord_green rounded-2xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition-transform">🪄</div>
+                    <h3 class="text-white font-bold text-base mb-2">Smart Magic Wand & Eraser</h3>
+                    <p class="text-discord_muted text-xs leading-relaxed">Flood-fill background removal with adjustable tolerance and smooth manual brush erasing.</p>
                 </div>
                 <div class="bg-discord_sidebar p-6 rounded-2xl border border-discord_darkest hover:border-discord_yellow/50 transition-all group">
                     <div class="w-12 h-12 bg-discord_yellow/20 text-discord_yellow rounded-2xl flex items-center justify-center font-bold text-xl mb-4 group-hover:scale-110 transition-transform">📋</div>
@@ -132,26 +137,26 @@
             </div>
         </section>
 
-        <!-- EDITOR & WORKSPACE PAGE VIEW -->
-        <section id="editor-page" class="hidden flex-1 flex flex-col p-4 md:p-6 max-w-7xl w-full mx-auto gap-6">
+        <!-- EDITOR & WORKSPACE PAGE VIEW (#studio) -->
+        <section id="editor-page" class="view-section hidden flex-1 flex flex-col p-4 md:p-6 max-w-7xl w-full mx-auto gap-6 animate-fadeIn">
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
                 <!-- LEFT TOOLBAR / SIDEBAR PANEL -->
-                <div class="lg:col-span-4 bg-discord_sidebar rounded-2xl p-5 border border-discord_darkest space-y-6">
+                <div class="lg:col-span-4 bg-discord_sidebar rounded-2xl p-5 border border-discord_darkest space-y-5 shadow-xl">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h2 class="text-white font-bold text-base mb-1">Studio Workspace</h2>
-                            <p class="text-discord_muted text-xs">Upload, edit, or create animated emojis</p>
+                            <h2 class="text-white font-bold text-base mb-0.5">Studio Workspace</h2>
+                            <p class="text-discord_muted text-xs">Edit, resize, and remove background</p>
                         </div>
                         <button onclick="openGifModal()" class="px-3 py-1.5 bg-discord_green/20 text-discord_green hover:bg-discord_green/30 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
-                            <span>🎞️ GIF Studio</span>
+                            <span>🎞️ GIF Maker</span>
                         </button>
                     </div>
 
                     <!-- Dropzone -->
-                    <div id="upload-area" class="border-2 border-dashed border-discord_darkest hover:border-discord_blurple bg-discord_darkest/50 p-5 rounded-xl text-center cursor-pointer transition-all hover:bg-discord_darkest flex flex-col items-center justify-center gap-2">
-                        <svg class="w-8 h-8 text-discord_blurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                    <div id="upload-area" class="border-2 border-dashed border-discord_darkest hover:border-discord_blurple bg-discord_darkest/50 p-4 rounded-xl text-center cursor-pointer transition-all hover:bg-discord_darkest flex flex-col items-center justify-center gap-2">
+                        <svg class="w-7 h-7 text-discord_blurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         <div>
                             <p class="text-white text-xs font-semibold">Upload Image or Sprite</p>
                             <p class="text-discord_muted text-[10px]">PNG, JPG, WebP</p>
@@ -192,6 +197,26 @@
                                 <span id="brush-val" class="text-discord_blurple">15px</span>
                             </div>
                             <input type="range" id="brush-slider" min="5" max="80" value="15" class="w-full accent-discord_blurple bg-discord_darkest h-2 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- NEW: RESIZE & UPSCALE TOOL -->
+                        <div class="bg-discord_darkest/70 p-3.5 rounded-xl border border-discord_sidebar space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+                                    <span>🔍 Resize & Upscale</span>
+                                </span>
+                                <span id="canvas-dim-label" class="text-[10px] text-discord_blurple font-mono font-bold">0 x 0</span>
+                            </div>
+                            <div class="grid grid-cols-4 gap-1.5">
+                                <button onclick="resizeCanvasFactor(1)" class="py-1.5 bg-discord_sidebar hover:bg-discord_dark text-white rounded-lg text-xs font-bold transition-colors">1x</button>
+                                <button onclick="resizeCanvasFactor(1.5)" class="py-1.5 bg-discord_sidebar hover:bg-discord_dark text-white rounded-lg text-xs font-bold transition-colors">1.5x</button>
+                                <button onclick="resizeCanvasFactor(2)" class="py-1.5 bg-discord_sidebar hover:bg-discord_dark text-white rounded-lg text-xs font-bold transition-colors">2x</button>
+                                <button onclick="resizeCanvasFactor(3)" class="py-1.5 bg-discord_sidebar hover:bg-discord_dark text-white rounded-lg text-xs font-bold transition-colors">3x</button>
+                            </div>
+                            <div class="flex gap-2 items-center pt-1">
+                                <input type="number" id="custom-size-input" placeholder="Custom px (e.g. 128)" class="w-full bg-discord_sidebar border border-discord_darkest rounded-lg px-2.5 py-1.5 text-xs text-white outline-none font-mono">
+                                <button onclick="applyCustomResize()" class="px-3 py-1.5 bg-discord_blurple hover:bg-discord_blurple_hover text-white rounded-lg text-xs font-bold transition-colors">Apply</button>
+                            </div>
                         </div>
 
                         <!-- Quick Utility Actions -->
@@ -236,7 +261,7 @@
                                 </div>
                             </div>
                             <div class="flex gap-2">
-                                <button id="save-btn" class="flex-1 py-3 bg-discord_green hover:bg-emerald-600 text-discord_darkest font-extrabold text-xs rounded-xl transition-all shadow-lg">
+                                <button id="save-btn" class="flex-1 py-3 bg-discord_green hover:bg-emerald-600 text-discord_darkest font-extrabold text-xs rounded-xl transition-all shadow-lg hover:scale-105">
                                     Save Emoji
                                 </button>
                                 <button id="download-btn" onclick="downloadCurrentEmoji()" class="px-4 py-3 bg-discord_darkest hover:bg-discord_dark text-white font-bold text-xs rounded-xl border border-discord_sidebar transition-all">
@@ -249,27 +274,27 @@
                 </div>
 
                 <!-- RIGHT WORKSPACE CANVAS AREA -->
-                <div class="lg:col-span-8 bg-discord_sidebar rounded-2xl p-5 border border-discord_darkest flex flex-col min-h-[500px]">
+                <div class="lg:col-span-8 bg-discord_sidebar rounded-2xl p-5 border border-discord_darkest flex flex-col min-h-[500px] shadow-xl">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h2 class="text-white font-bold text-base">Interactive Studio Canvas</h2>
                             <p id="tool-instruction" class="text-discord_muted text-xs">Click background color to instantly remove it</p>
                         </div>
-                        <button onclick="showGuideModal()" class="text-xs text-discord_blurple font-bold hover:underline flex items-center gap-1">
+                        <button onclick="navigateTo('#guide')" class="text-xs text-discord_blurple font-bold hover:underline flex items-center gap-1">
                             <span>How to use on Discord? ↗</span>
                         </button>
                     </div>
 
                     <!-- Canvas Checkerboard Display -->
-                    <div class="flex-1 checkerboard rounded-xl border border-discord_darkest flex items-center justify-center p-6 relative min-h-[380px] overflow-hidden">
-                        <canvas id="canvas" class="max-w-full max-h-[450px] rounded object-contain shadow-2xl cursor-crosshair"></canvas>
+                    <div class="flex-1 checkerboard rounded-xl border border-discord_darkest flex items-center justify-center p-6 relative min-h-[420px] overflow-hidden">
+                        <canvas id="canvas" class="max-w-full max-h-[480px] rounded object-contain shadow-2xl cursor-crosshair"></canvas>
                     </div>
                 </div>
 
             </div>
 
             <!-- SAVED EMOJIS GALLERY -->
-            <div class="bg-discord_sidebar rounded-2xl p-6 border border-discord_darkest space-y-4">
+            <div class="bg-discord_sidebar rounded-2xl p-6 border border-discord_darkest space-y-4 shadow-xl">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-white font-bold text-lg flex items-center gap-2">
@@ -291,76 +316,74 @@
 
         </section>
 
-    </main>
-
-    <!-- DISCORD GUIDE & INSTRUCTIONS MODAL -->
-    <div id="guide-modal" class="fixed inset-0 bg-discord_darkest/90 backdrop-blur-md hidden items-center justify-center p-4 z-50 overflow-y-auto">
-        <div class="bg-discord_sidebar rounded-3xl border border-discord_darkest p-6 md:p-8 max-w-3xl w-full space-y-6 shadow-2xl my-8 relative">
-            <button onclick="closeGuideModal()" class="absolute top-6 right-6 text-discord_muted hover:text-white text-lg font-bold">✕</button>
-            
-            <div class="space-y-2">
-                <h2 class="text-2xl font-black text-white flex items-center gap-2">
-                    📖 How to Add & Use Emojis on Discord
-                </h2>
-                <p class="text-discord_muted text-xs md:text-sm">Follow these simple instructions to upload your transparent emojis or animated GIFs into your Discord server or chats.</p>
-            </div>
-
-            <!-- Simulated Discord Mockup Guide -->
-            <div class="bg-discord_darkest rounded-2xl border border-discord_sidebar p-5 space-y-4">
-                <div class="flex items-center gap-2 border-b border-discord_sidebar pb-3">
-                    <div class="w-3 h-3 rounded-full bg-discord_red"></div>
-                    <div class="w-3 h-3 rounded-full bg-discord_yellow"></div>
-                    <div class="w-3 h-3 rounded-full bg-discord_green"></div>
-                    <span class="text-xs text-discord_muted ml-2 font-mono">discord.com/channels/@me/server-settings</span>
-                </div>
-
-                <!-- Step 1 -->
+        <!-- DISCORD GUIDE PAGE VIEW (#guide) -->
+        <section id="guide-page" class="view-section hidden flex-1 flex flex-col p-6 max-w-4xl mx-auto space-y-6">
+            <div class="bg-discord_sidebar rounded-3xl border border-discord_darkest p-6 md:p-8 space-y-6 shadow-2xl">
                 <div class="space-y-2">
-                    <div class="flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-discord_blurple text-white font-bold text-xs flex items-center justify-center">1</span>
-                        <h4 class="text-white font-bold text-sm">Go to Server Settings (For Server Emojis)</h4>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        📖 Ultimate Discord Emoji Guide
+                    </h2>
+                    <p class="text-discord_muted text-xs md:text-sm">Follow these simple instructions to upload your transparent emojis or animated GIFs into your Discord server or chats.</p>
+                </div>
+
+                <!-- Simulated Discord Mockup Guide -->
+                <div class="bg-discord_darkest rounded-2xl border border-discord_sidebar p-5 space-y-4">
+                    <div class="flex items-center gap-2 border-b border-discord_sidebar pb-3">
+                        <div class="w-3 h-3 rounded-full bg-discord_red"></div>
+                        <div class="w-3 h-3 rounded-full bg-discord_yellow"></div>
+                        <div class="w-3 h-3 rounded-full bg-discord_green"></div>
+                        <span class="text-xs text-discord_muted ml-2 font-mono">discord.com/channels/@me/server-settings</span>
                     </div>
-                    <p class="text-discord_muted text-xs pl-8 leading-relaxed">
-                        Click on your server name at the top left of Discord, click <strong class="text-white">Server Settings</strong>, and navigate to the <strong class="text-white">Emoji</strong> tab on the left sidebar.
-                    </p>
-                    <div class="ml-8 bg-discord_sidebar p-3 rounded-xl border border-discord_darkest flex items-center justify-between text-xs text-discord_muted font-mono">
-                        <span>Server Name ➔ Server Settings ➔ Emoji</span>
-                        <span class="bg-discord_blurple text-white px-2 py-0.5 rounded text-[10px] font-bold">Step 1</span>
+
+                    <!-- Step 1 -->
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-discord_blurple text-white font-bold text-xs flex items-center justify-center">1</span>
+                            <h4 class="text-white font-bold text-sm">Go to Server Settings (For Server Emojis)</h4>
+                        </div>
+                        <p class="text-discord_muted text-xs pl-8 leading-relaxed">
+                            Click on your server name at the top left of Discord, click <strong class="text-white">Server Settings</strong>, and navigate to the <strong class="text-white">Emoji</strong> tab on the left sidebar.
+                        </p>
+                        <div class="ml-8 bg-discord_sidebar p-3 rounded-xl border border-discord_darkest flex items-center justify-between text-xs text-discord_muted font-mono">
+                            <span>Server Name ➔ Server Settings ➔ Emoji</span>
+                            <span class="bg-discord_blurple text-white px-2 py-0.5 rounded text-[10px] font-bold">Step 1</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="space-y-2 pt-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-discord_blurple text-white font-bold text-xs flex items-center justify-center">2</span>
+                            <h4 class="text-white font-bold text-sm">Upscale & Download Your Emoji</h4>
+                        </div>
+                        <p class="text-discord_muted text-xs pl-8 leading-relaxed">
+                            Use our <strong class="text-white">Resize & Upscale</strong> tool in Studio to make sure your emoji is nice and crisp, then click <strong class="text-white">Download PNG</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="space-y-2 pt-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-discord_blurple text-white font-bold text-xs flex items-center justify-center">3</span>
+                            <h4 class="text-white font-bold text-sm">Upload & Use in Chat</h4>
+                        </div>
+                        <p class="text-discord_muted text-xs pl-8 leading-relaxed">
+                            Click <strong class="text-white">Upload Emoji</strong> in Discord, select your saved file, and type <code class="bg-discord_sidebar text-discord_green px-1.5 py-0.5 rounded">:your_emoji_name:</code> in any chat channel!
+                        </p>
                     </div>
                 </div>
 
-                <!-- Step 2 -->
-                <div class="space-y-2 pt-2">
-                    <div class="flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-discord_blurple text-white font-bold text-xs flex items-center justify-center">2</span>
-                        <h4 class="text-white font-bold text-sm">Download or Copy Your Processed Emoji</h4>
-                    </div>
-                    <p class="text-discord_muted text-xs pl-8 leading-relaxed">
-                        Click <strong class="text-white">Download PNG</strong> or <strong class="text-white">Copy</strong> right here in Discord Emoji Forge. You can also drag files directly!
-                    </p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="space-y-2 pt-2">
-                    <div class="flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-discord_blurple text-white font-bold text-xs flex items-center justify-center">3</span>
-                        <h4 class="text-white font-bold text-sm">Upload & Use in Chat</h4>
-                    </div>
-                    <p class="text-discord_muted text-xs pl-8 leading-relaxed">
-                        Click <strong class="text-white">Upload Emoji</strong> in Discord, select your saved file, and type <code class="bg-discord_sidebar text-discord_green px-1.5 py-0.5 rounded">:your_emoji_name:</code> in any chat channel!
-                    </p>
-                </div>
+                <button onclick="navigateTo('#studio')" class="w-full py-3.5 bg-discord_blurple hover:bg-discord_blurple_hover text-white font-bold rounded-xl text-xs transition-all shadow-md">
+                    Open Studio Workspace 🚀
+                </button>
             </div>
+        </section>
 
-            <button onclick="closeGuideModal()" class="w-full py-3.5 bg-discord_blurple hover:bg-discord_blurple_hover text-white font-bold rounded-xl text-xs transition-all shadow-md">
-                Got It, Let's Create Emojis!
-            </button>
-        </div>
-    </div>
+    </main>
 
     <!-- GIF MAKER MODAL -->
     <div id="gif-modal" class="fixed inset-0 bg-discord_darkest/90 backdrop-blur-md hidden items-center justify-center p-4 z-50 overflow-y-auto">
-        <div class="bg-discord_sidebar rounded-3xl border border-discord_darkest p-6 md:p-8 max-w-xl w-full space-y-6 shadow-2xl my-8 relative">
+        <div class="bg-discord_sidebar rounded-3xl border border-discord_darkest p-6 md:p-8 max-w-xl w-full space-y-6 shadow-2xl my-8 relative animate-fadeIn">
             <button onclick="closeGifModal()" class="absolute top-6 right-6 text-discord_muted hover:text-white text-lg font-bold">✕</button>
             
             <div>
@@ -372,7 +395,7 @@
 
             <div class="space-y-4">
                 <div class="checkerboard p-6 rounded-2xl flex items-center justify-center relative min-h-[200px]">
-                    <img id="gif-preview-img" src="" alt="GIF Preview" class="max-h-36 object-contain drop-shadow-lg transition-transform duration-300">
+                    <img id="gif-preview-img" alt="GIF Preview" class="max-h-36 object-contain drop-shadow-lg transition-transform duration-300">
                 </div>
 
                 <div class="space-y-3">
@@ -384,11 +407,6 @@
                             <option value="bounce">🏀 Jumping Bounce</option>
                             <option value="shake">⚡ Earthquake Shake</option>
                         </select>
-                    </div>
-
-                    <div>
-                        <label class="text-discord_muted text-xs font-bold block mb-1">Animation Speed</label>
-                        <input type="range" id="gif-speed" min="1" max="5" value="3" class="w-full accent-discord_blurple bg-discord_darkest h-2 rounded-lg cursor-pointer">
                     </div>
                 </div>
             </div>
@@ -410,7 +428,7 @@
             <h3 id="modal-emoji-title" class="text-white font-bold text-lg">:emoji_name:</h3>
             
             <div class="checkerboard p-6 rounded-xl flex items-center justify-center">
-                <img id="modal-emoji-img" src="" alt="Emoji Preview" class="max-h-32 object-contain drop-shadow-md">
+                <img id="modal-emoji-img" alt="Emoji Preview" class="max-h-32 object-contain drop-shadow-md">
             </div>
 
             <p class="text-discord_muted text-xs leading-relaxed">
@@ -452,11 +470,11 @@
 
         window.currentUser = null;
         let canvas, ctx;
-        let landingPage, editorPage, uploadArea, fileInput, editorTools;
+        let landingPage, editorPage, guidePage, uploadArea, fileInput, editorTools;
         let toleranceSlider, toleranceVal, brushSlider, brushVal;
         let saveBtn, emojiNameInput, galleryGrid, emptyState, emojiCount;
         let copyModal, modalCloseBtn, modalEmojiImg, modalEmojiTitle, modalDownloadBtn;
-        let loginBtn, userProfile, userAvatar, userName;
+        let loginBtn, userProfile, userAvatar, userName, canvasDimLabel;
 
         let currentImage = null;
         let originalImageData = null;
@@ -465,29 +483,28 @@
         let currentTool = 'wand';
         let isDrawing = false;
 
-        window.showLandingPage = function() {
-            if (landingPage && editorPage) {
-                landingPage.classList.remove('hidden');
-                editorPage.classList.add('hidden');
+        // --- URL Hash Routing ---
+        window.navigateTo = function(hash) {
+            window.location.hash = hash;
+            handleRoute();
+        };
+
+        function handleRoute() {
+            const hash = window.location.hash || '#home';
+            const sections = document.querySelectorAll('.view-section');
+            sections.forEach(s => s.classList.add('hidden'));
+
+            if (hash === '#studio') {
+                document.getElementById('editor-page')?.classList.remove('hidden');
+            } else if (hash === '#guide') {
+                document.getElementById('guide-page')?.classList.remove('hidden');
+            } else {
+                document.getElementById('landing-page')?.classList.remove('hidden');
             }
-        };
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-        window.showEditorPage = function() {
-            if (landingPage && editorPage) {
-                landingPage.classList.add('hidden');
-                editorPage.classList.remove('hidden');
-            }
-        };
-
-        window.showGuideModal = function() {
-            const modal = document.getElementById('guide-modal');
-            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
-        };
-
-        window.closeGuideModal = function() {
-            const modal = document.getElementById('guide-modal');
-            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-        };
+        window.addEventListener('hashchange', handleRoute);
 
         window.openGifModal = function() {
             if (!currentImage) {
@@ -513,13 +530,13 @@
                 await syncUserToFirestore(user);
                 showToast(`Welcome back, ${user.displayName}!`, 'success');
             } catch (error) {
-                console.warn('Google Sign-In caught domain restriction. Falling back to Guest Ultimate Creator mode:', error);
+                console.warn('Google Sign-In caught domain restriction. Falling back to Guest Pro mode:', error);
                 
                 const fallbackUser = {
-                    uid: 'guest_ultimate_user_999',
+                    uid: 'guest_pro_user_999',
                     email: 'creator@discordforge.local',
-                    displayName: 'Ultimate Creator',
-                    photoURL: 'https://placehold.co/100x100/57F287/1E1F22?text=UC'
+                    displayName: 'Pro Creator',
+                    photoURL: 'https://placehold.co/100x100/57F287/1E1F22?text=PC'
                 };
                 
                 window.currentUser = fallbackUser;
@@ -532,7 +549,7 @@
                 if (userName) userName.textContent = fallbackUser.displayName;
                 
                 loadUserEmojis(fallbackUser.uid);
-                showToast('Signed in via Guest Ultimate Mode!', 'success');
+                showToast('Signed in via Guest Pro Mode!', 'success');
             }
         };
 
@@ -563,7 +580,7 @@
                 email: user.email,
                 displayName: user.displayName || 'User',
                 photoURL: user.photoURL || '',
-                tier: 'ultimate',
+                tier: 'pro',
                 lastLogin: new Date().toISOString()
             };
 
@@ -627,6 +644,7 @@
 
             landingPage = document.getElementById('landing-page');
             editorPage = document.getElementById('editor-page');
+            guidePage = document.getElementById('guide-page');
             uploadArea = document.getElementById('upload-area');
             fileInput = document.getElementById('file-input');
             editorTools = document.getElementById('editor-tools');
@@ -635,6 +653,7 @@
             toleranceVal = document.getElementById('tolerance-val');
             brushSlider = document.getElementById('brush-slider');
             brushVal = document.getElementById('brush-val');
+            canvasDimLabel = document.getElementById('canvas-dim-label');
 
             saveBtn = document.getElementById('save-btn');
             emojiNameInput = document.getElementById('emoji-name-input');
@@ -653,6 +672,8 @@
             userAvatar = document.getElementById('user-avatar');
             userName = document.getElementById('user-name');
 
+            handleRoute();
+
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     window.currentUser = user;
@@ -665,7 +686,7 @@
                     if (userName) userName.textContent = user.displayName || 'User';
                     loadUserEmojis(user.uid);
                 } else {
-                    if (window.currentUser && window.currentUser.uid === 'guest_ultimate_user_999') return;
+                    if (window.currentUser && window.currentUser.uid === 'guest_pro_user_999') return;
                     window.currentUser = null;
                     if (loginBtn) loginBtn.classList.remove('hidden');
                     if (userProfile) {
@@ -754,6 +775,12 @@
             }
         };
 
+        function updateCanvasDimLabel() {
+            if (canvasDimLabel && canvas) {
+                canvasDimLabel.textContent = `${canvas.width} x ${canvas.height} px`;
+            }
+        }
+
         function handleFile(file) {
             if (!file.type.startsWith('image/')) {
                 showToast('Please upload a valid image file.', 'error');
@@ -764,7 +791,7 @@
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = () => {
-                    const MAX_SIZE = 320;
+                    const MAX_SIZE = 256;
                     let w = img.width, h = img.height;
                     if (w > MAX_SIZE || h > MAX_SIZE) {
                         const ratio = Math.min(MAX_SIZE / w, MAX_SIZE / h);
@@ -782,30 +809,99 @@
                         originalImageData = ctx.getImageData(0, 0, w, h);
                         historyStack = [];
                         saveState();
+                        updateCanvasDimLabel();
                     }
 
                     let defaultName = file.name.split('.')[0].replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
                     if (emojiNameInput) emojiNameInput.value = defaultName;
 
-                    window.showEditorPage();
-                    if (editorTools) editorTools.classList.remove('hidden');
+                    window.navigateTo('#studio');
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
 
+        // --- NEW: Resize & Upscale Logic ---
+        window.resizeCanvasFactor = function(factor) {
+            if (!canvas || !ctx || !currentImage) {
+                showToast('Upload an image first!', 'error');
+                return;
+            }
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
+            const newWidth = Math.round(oldWidth * factor);
+            const newHeight = Math.round(oldHeight * factor);
+
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = oldWidth;
+            tempCanvas.height = oldHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0);
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            ctx.imageSmoothingEnabled = factor > 1; // Smooth upscale
+            ctx.clearRect(0, 0, newWidth, newHeight);
+            ctx.drawImage(tempCanvas, 0, 0, newWidth, newHeight);
+
+            saveState();
+            updateCanvasDimLabel();
+            showToast(`Upscaled to ${newWidth}x${newHeight}px (${factor}x)!`, 'success');
+        };
+
+        window.applyCustomResize = function() {
+            const input = document.getElementById('custom-size-input');
+            const val = parseInt(input ? input.value : 0);
+            if (!val || val < 16 || val > 1024) {
+                showToast('Enter valid dimensions between 16 and 1024 px', 'error');
+                return;
+            }
+            if (!canvas || !ctx || !currentImage) {
+                showToast('Upload an image first!', 'error');
+                return;
+            }
+
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
+            const ratio = oldWidth / oldHeight;
+            let newW = val, newH = val;
+            if (oldWidth > oldHeight) newH = Math.round(val / ratio);
+            else newW = Math.round(val * ratio);
+
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = oldWidth;
+            tempCanvas.height = oldHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(canvas, 0, 0);
+
+            canvas.width = newW;
+            canvas.height = newH;
+            ctx.imageSmoothingEnabled = true;
+            ctx.clearRect(0, 0, newW, newH);
+            ctx.drawImage(tempCanvas, 0, 0, newW, newH);
+
+            saveState();
+            updateCanvasDimLabel();
+            if (input) input.value = '';
+            showToast(`Resized to ${newW}x${newH}px!`, 'success');
+        };
+
         function saveState() {
             if (!ctx || !canvas) return;
             if (historyStack.length > 20) historyStack.shift();
             historyStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+            updateCanvasDimLabel();
         }
 
         window.undo = function() {
             if (historyStack.length > 1 && ctx) {
                 historyStack.pop();
                 const previous = historyStack[historyStack.length - 1];
+                canvas.width = previous.width;
+                canvas.height = previous.height;
                 ctx.putImageData(previous, 0, 0);
+                updateCanvasDimLabel();
                 showToast('Undo applied', 'success');
             } else {
                 showToast('No more steps to undo', 'error');
@@ -976,7 +1072,6 @@
             const rawName = emojiNameInput ? emojiNameInput.value.trim() : '';
             const cleanName = (rawName || `animated_emoji`).toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '_');
 
-            // Save animated effect tag
             saveEmojiToCloud({
                 name: cleanName + '_' + effect,
                 dataUrl: dataUrl,
