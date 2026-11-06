@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-discord_dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Emoji Forge</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discord_blurple: '#5865F2',
+                        discord_blurple_hover: '#4752C4',
+                        discord_green: '#57F287',
+                        discord_yellow: '#FEE75C',
+                        discord_red: '#ED4245',
+                        discord_dark: '#313338',
+                        discord_sidebar: '#2B2D31',
+                        discord_darkest: '#1E1F22',
+                        discord_text: '#DBDEE1',
+                        discord_muted: '#949BA4'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=GG+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'GG Sans', sans-serif;
+        }
+        .checkerboard {
+            background-color: #1e1f22;
+            background-image: linear-gradient(45deg, #2b2d31 25%, transparent 25%),
+                              linear-gradient(-45deg, #2b2d31 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #2b2d31 75%),
+                              linear-gradient(-45deg, transparent 75%, #2b2d31 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        }
+        .tool-btn.active {
+            background-color: #5865F2 !important;
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body class="h-full text-discord_text flex flex-col min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="bg-discord_darkest border-b border-discord_sidebar px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="showLandingPage()">
+            <div class="w-10 h-10 bg-discord_blurple rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg hover:scale-105 transition-transform">
+                ⚡
+            </div>
+            <div>
+                <h1 class="font-bold text-lg text-white leading-tight flex items-center gap-2">
+                    Discord Emoji Forge
+                    <span class="text-[10px] bg-discord_blurple/20 text-discord_blurple px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Pro Magic</span>
+                </h1>
+                <p class="text-xs text-discord_muted">Instant transparent emojis & direct Discord copy</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="showLandingPage()" class="px-4 py-2 rounded-xl text-xs font-semibold hover:bg-discord_sidebar text-discord_muted hover:text-white transition-colors">Home</button>
+            <button onclick="showEditorPage()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-discord_blurple hover:bg-discord_blurple_hover text-white transition-all shadow-md flex items-center gap-2">
+                <span>Open Studio</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-1 flex flex-col">
+
+        <!-- LANDING PAGE VIEW -->
+        <section id="landing-page" class="flex-1 flex flex-col items-center justify-center text-center p-6 max-w-4xl mx-auto py-12">
+            <div class="inline-flex items-center gap-2 bg-discord_sidebar border border-discord_darkest px-4 py-1.5 rounded-full text-xs text-discord_blurple font-semibold mb-6 animate-pulse">
+                <span>✨ Advanced Auto-Wand & Manual Eraser</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight leading-none mb-6">
+                Turn Any Image Into A <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-discord_blurple via-indigo-400 to-discord_green">Discord Emoji</span>
+            </h1>
+            <p class="text-discord_muted text-base md:text-lg max-w-2xl mb-8 leading-relaxed">
+                Remove image backgrounds with 1-click magic wand tools, fine-tune with custom brush erasers, and copy transparent PNG assets directly into your Discord chat!
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 w-full justify-center max-w-md mb-12">
+                <button onclick="showEditorPage()" class="px-8 py-4 bg-discord_blurple hover:bg-discord_blurple_hover text-white font-bold rounded-2xl shadow-xl transition-all hover:scale-105 flex items-center justify-center gap-3 text-base">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    Start Creating Emojis
+                </button>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left w-full mt-4">
+                <div class="bg-discord_sidebar p-6 rounded-2xl border border-discord_darkest">
+                    <div class="w-10 h-10 bg-discord_blurple/20 text-discord_blurple rounded-xl flex items-center justify-center font-bold text-lg mb-4">🪄</div>
+                    <h3 class="text-white font-bold mb-2">Magic Auto Eraser</h3>
+                    <p class="text-discord_muted text-xs leading-relaxed">Click any background color to instantly flood-fill delete unwanted backgrounds with configurable tolerance.</p>
+                </div>
+                <div class="bg-discord_sidebar p-6 rounded-2xl border border-discord_darkest">
+                    <div class="w-10 h-10 bg-discord_green/20 text-discord_green rounded-xl flex items-center justify-center font-bold text-lg mb-4">📋</div>
+                    <h3 class="text-white font-bold mb-2">Direct Discord Copy</h3>
+                    <p class="text-discord_muted text-xs leading-relaxed">Copies real transparent PNG image data so you can paste directly into Discord DMs, servers, or chats without saving.</p>
+                </div>
+                <div class="bg-discord_sidebar p-6 rounded-2xl border border-discord_darkest">
+                    <div class="w-10 h-10 bg-discord_yellow/20 text-discord_yellow rounded-xl flex items-center justify-center font-bold text-lg mb-4">⚡</div>
+                    <h3 class="text-white font-bold mb-2">Auto-Crop & Filters</h3>
+                    <p class="text-discord_muted text-xs leading-relaxed">Automatically shrink canvas to subject boundaries and tweak brightness & contrast for high readability.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDITOR & WORKSPACE PAGE VIEW -->
+        <section id="editor-page" class="hidden flex-1 flex flex-col p-4 md:p-6 max-w-7xl w-full mx-auto gap-6">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- LEFT TOOLBAR / SIDEBAR PANEL -->
+                <div class="lg:col-span-4 bg-discord_sidebar rounded-2xl p-5 border border-discord_darkest space-y-6">
+                    <div>
+                        <h2 class="text-white font-bold text-base mb-1">Upload Source Image</h2>
+                        <p class="text-discord_muted text-xs">PNG, JPG, or WebP up to 10MB</p>
+                    </div>
+
+                    <!-- Dropzone -->
+                    <div id="upload-area" class="border-2 border-dashed border-discord_darkest hover:border-discord_blurple bg-discord_darkest/50 p-6 rounded-xl text-center cursor-pointer transition-all hover:bg-discord_darkest flex flex-col items-center justify-center gap-3">
+                        <svg class="w-10 h-10 text-discord_blurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        <div>
+                            <p class="text-white text-xs font-semibold">Click to browse or drag image here</p>
+                            <p class="text-discord_muted text-[10px] mt-1">Automatic resizing applied</p>
+                        </div>
+                        <input type="file" id="file-input" accept="image/*" class="hidden">
+                    </div>
+
+                    <!-- Editor Settings Controls -->
+                    <div id="editor-tools" class="space-y-5">
+                        <hr class="border-discord_darkest">
+                        
+                        <!-- Tool Selection -->
+                        <div>
+                            <label class="text-discord_muted text-xs font-bold uppercase tracking-wider block mb-2">Removal Mode</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="tool-wand" onclick="setTool('wand')" class="tool-btn active px-3 py-2.5 rounded-xl bg-discord_darkest hover:bg-discord_dark text-xs font-bold text-discord_text flex items-center justify-center gap-2 transition-colors">
+                                    <span>🪄 Magic Wand</span>
+                                </button>
+                                <button id="tool-eraser" onclick="setTool('eraser')" class="tool-btn px-3 py-2.5 rounded-xl bg-discord_darkest hover:bg-discord_dark text-xs font-bold text-discord_text flex items-center justify-center gap-2 transition-colors">
+                                    <span>🧹 Brush Eraser</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Magic Wand Sensitivity Slider -->
+                        <div id="wand-settings" class="space-y-2">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-discord_text">Wand Tolerance</span>
+                                <span id="tolerance-val" class="text-discord_blurple">40</span>
+                            </div>
+                            <input type="range" id="tolerance-slider" min="1" max="100" value="40" class="w-full accent-discord_blurple bg-discord_darkest h-2 rounded-lg cursor-pointer">
+                            <p class="text-[10px] text-discord_muted">Higher tolerance removes broader color ranges.</p>
+                        </div>
+
+                        <!-- Manual Eraser Brush Radius Slider -->
+                        <div id="eraser-settings" class="space-y-2 hidden">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-discord_text">Brush Radius</span>
+                                <span id="brush-val" class="text-discord_blurple">15px</span>
+                            </div>
+                            <input type="range" id="brush-slider" min="5" max="80" value="15" class="w-full accent-discord_blurple bg-discord_darkest h-2 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Quick Utility Actions -->
+                        <div class="space-y-2">
+                            <label class="text-discord_muted text-xs font-bold uppercase tracking-wider block mb-2">Actions</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="autoCropCanvas()" class="px-3 py-2 rounded-xl bg-discord_darkest hover:bg-discord_dark text-xs font-semibold text-discord_text flex items-center justify-center gap-1.5 transition-colors">
+                                    <span>✂️ Auto Crop</span>
+                                </button>
+                                <button onclick="undo()" class="px-3 py-2 rounded-xl bg-discord_darkest hover:bg-discord_dark text-xs font-semibold text-discord_text flex items-center justify-center gap-1.5 transition-colors">
+                                    <span>↩️ Undo (Ctrl+Z)</span>
+                                </button>
+                            </div>
+                            <button id="reset-btn" class="w-full px-3 py-2 rounded-xl bg-discord_red/20 hover:bg-discord_red/30 text-discord_red text-xs font-bold transition-colors">
+                                Reset To Original Image
+                            </button>
+                        </div>
+
+                        <!-- Visual Filters -->
+                        <div class="space-y-3">
+                            <label class="text-discord_muted text-xs font-bold uppercase tracking-wider block">Visual Adjustments</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <span class="text-[10px] text-discord_muted font-bold block mb-1">Brightness</span>
+                                    <input type="range" id="brightness" min="-50" max="50" value="0" onchange="applyFilters()" class="w-full accent-discord_blurple bg-discord_darkest h-1.5 rounded-lg">
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-discord_muted font-bold block mb-1">Contrast</span>
+                                    <input type="range" id="contrast" min="-50" max="50" value="0" onchange="applyFilters()" class="w-full accent-discord_blurple bg-discord_darkest h-1.5 rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Save & Name Inputs -->
+                        <div class="pt-2 space-y-3">
+                            <div>
+                                <label class="text-discord_muted text-xs font-bold block mb-1">Emoji Shortcode Name</label>
+                                <div class="flex items-center bg-discord_darkest rounded-xl px-3 border border-discord_sidebar">
+                                    <span class="text-discord_muted font-bold text-xs">:</span>
+                                    <input type="text" id="emoji-name-input" placeholder="my_awesome_emoji" class="w-full bg-transparent py-2.5 px-1 text-xs font-bold text-white outline-none">
+                                    <span class="text-discord_muted font-bold text-xs">:</span>
+                                </div>
+                            </div>
+                            <button id="save-btn" class="w-full py-3 bg-discord_green hover:bg-emerald-600 text-discord_darkest font-extrabold text-sm rounded-xl transition-all shadow-lg hover:scale-[1.02]">
+                                Save To My Emoji Collection
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- RIGHT WORKSPACE CANVAS AREA -->
+                <div class="lg:col-span-8 bg-discord_sidebar rounded-2xl p-5 border border-discord_darkest flex flex-col min-h-[500px]">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-white font-bold text-base">Interactive Editor Canvas</h2>
+                            <p id="tool-instruction" class="text-discord_muted text-xs">Click background color to erase</p>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Checkerboard Display -->
+                    <div class="flex-1 checkerboard rounded-xl border border-discord_darkest flex items-center justify-center p-6 relative min-h-[360px] overflow-hidden">
+                        <canvas id="canvas" class="max-w-full max-h-[450px] rounded object-contain shadow-2xl cursor-crosshair"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SAVED EMOJIS GALLERY -->
+            <div class="bg-discord_sidebar rounded-2xl p-6 border border-discord_darkest space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-white font-bold text-lg flex items-center gap-2">
+                            Saved Emojis
+                            <span id="emoji-count" class="bg-discord_blurple/20 text-discord_blurple px-2.5 py-0.5 rounded-full text-xs font-bold">0</span>
+                        </h2>
+                        <p class="text-discord_muted text-xs">Click copy to instantly paste into Discord DMs and servers</p>
+                    </div>
+                    <button onclick="clearAllEmojis()" class="text-discord_muted hover:text-discord_red text-xs font-semibold transition-colors">Clear All</button>
+                </div>
+
+                <!-- Gallery Empty State -->
+                <div id="empty-state" class="py-12 text-center border-2 border-dashed border-discord_darkest rounded-xl">
+                    <p class="text-discord_muted text-sm">No emojis saved yet. Process an image above to get started!</p>
+                </div>
+
+                <!-- Emojis Grid -->
+                <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- CLIPBOARD / COPY MODAL FALLBACK -->
+    <div id="copy-modal" class="fixed inset-0 bg-discord_darkest/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-discord_sidebar rounded-2xl border border-discord_darkest p-6 max-w-sm w-full space-y-4 text-center shadow-2xl">
+            <h3 id="modal-emoji-title" class="text-white font-bold text-lg">:emoji_name:</h3>
+            
+            <div class="checkerboard p-6 rounded-xl flex items-center justify-center">
+                <img id="modal-emoji-img" src="" alt="Emoji Preview" class="max-h-32 object-contain drop-shadow-md">
+            </div>
+
+            <p class="text-discord_muted text-xs leading-relaxed">
+                Right-click the image above and select <strong class="text-white">"Copy Image"</strong> to paste into Discord!
+            </p>
+
+            <div class="flex gap-2">
+                <a id="modal-download-btn" href="#" download="emoji.png" class="flex-1 py-2.5 bg-discord_darkest hover:bg-discord_dark text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 border border-discord_sidebar transition-colors">
+                    <span>⬇️ Download PNG</span>
+                </a>
+                <button id="modal-close-btn" class="flex-1 py-2.5 bg-discord_blurple hover:bg-discord_blurple_hover text-white rounded-xl font-bold text-xs transition-colors">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // Global State & Elements
+        let canvas, ctx;
+        let landingPage, editorPage, uploadArea, fileInput, editorTools;
+        let toleranceSlider, toleranceVal, brushSlider, brushVal;
+        let resetBtn, saveBtn, emojiNameInput, galleryGrid, emptyState, emojiCount;
+        let copyModal, modalCloseBtn, modalEmojiImg, modalEmojiTitle, modalDownloadBtn;
+
+        let currentImage = null;
+        let originalImageData = null;
+        let historyStack = [];
+        let emojis = [];
+        let currentTool = 'wand';
+        let isDrawing = false;
+
+        function showLandingPage() {
+            if (landingPage && editorPage) {
+                landingPage.classList.remove('hidden');
+                editorPage.classList.add('hidden');
+            }
+        }
+
+        function showEditorPage() {
+            if (landingPage && editorPage) {
+                landingPage.classList.add('hidden');
+                editorPage.classList.remove('hidden');
+            }
+        }
+
+        // --- Init & Safe Event Listeners ---
+        function initApp() {
+            // Assign DOM Elements safely
+            canvas = document.getElementById('canvas');
+            if (canvas) ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+            landingPage = document.getElementById('landing-page');
+            editorPage = document.getElementById('editor-page');
+            uploadArea = document.getElementById('upload-area');
+            fileInput = document.getElementById('file-input');
+            editorTools = document.getElementById('editor-tools');
+
+            toleranceSlider = document.getElementById('tolerance-slider');
+            toleranceVal = document.getElementById('tolerance-val');
+            brushSlider = document.getElementById('brush-slider');
+            brushVal = document.getElementById('brush-val');
+
+            resetBtn = document.getElementById('reset-btn');
+            saveBtn = document.getElementById('save-btn');
+            emojiNameInput = document.getElementById('emoji-name-input');
+            galleryGrid = document.getElementById('gallery-grid');
+            emptyState = document.getElementById('empty-state');
+            emojiCount = document.getElementById('emoji-count');
+
+            copyModal = document.getElementById('copy-modal');
+            modalCloseBtn = document.getElementById('modal-close-btn');
+            modalEmojiImg = document.getElementById('modal-emoji-img');
+            modalEmojiTitle = document.getElementById('modal-emoji-title');
+            modalDownloadBtn = document.getElementById('modal-download-btn');
+
+            loadFromStorage();
+            renderGallery();
+
+            if (modalCloseBtn) {
+                modalCloseBtn.addEventListener('click', () => {
+                    if (copyModal) {
+                        copyModal.classList.add('hidden');
+                        copyModal.classList.remove('flex');
+                    }
+                });
+            }
+
+            if (uploadArea && fileInput) {
+                uploadArea.addEventListener('click', () => fileInput.click());
+                uploadArea.addEventListener('dragover', (e) => { 
+                    e.preventDefault(); 
+                    uploadArea.classList.add('border-discord_blurple', 'bg-discord_sidebar/80'); 
+                });
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('border-discord_blurple', 'bg-discord_sidebar/80');
+                });
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('border-discord_blurple', 'bg-discord_sidebar/80');
+                    if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+                });
+
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+                });
+            }
+
+            if (toleranceSlider && toleranceVal) {
+                toleranceSlider.addEventListener('input', (e) => toleranceVal.textContent = e.target.value);
+            }
+
+            if (brushSlider && brushVal) {
+                brushSlider.addEventListener('input', (e) => brushVal.textContent = `${e.target.value}px`);
+            }
+
+            if (canvas) {
+                canvas.addEventListener('mousedown', (e) => {
+                    if (!currentImage) return;
+                    isDrawing = true;
+                    if (currentTool === 'wand') {
+                        processWandClick(e);
+                    } else {
+                        eraseAtPoint(e);
+                    }
+                });
+
+                canvas.addEventListener('mousemove', (e) => {
+                    if (isDrawing && currentTool === 'eraser') {
+                        eraseAtPoint(e);
+                    }
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if (!originalImageData) return;
+                    canvas.width = originalImageData.width;
+                    canvas.height = originalImageData.height;
+                    ctx.putImageData(originalImageData, 0, 0);
+                    historyStack = [];
+                    saveState();
+                    showToast('Reset to original image', 'success');
+                });
+            }
+
+            if (saveBtn) {
+                saveBtn.addEventListener('click', () => {
+                    if (!currentImage) return;
+
+                    const rawName = emojiNameInput ? emojiNameInput.value.trim() : '';
+                    const cleanName = (rawName || `emoji_${Date.now()}`).toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '_');
+                    const dataUrl = canvas.toDataURL('image/png');
+
+                    const newEmoji = {
+                        id: Date.now().toString(),
+                        name: cleanName,
+                        dataUrl: dataUrl
+                    };
+
+                    emojis.unshift(newEmoji);
+                    saveToStorage();
+                    renderGallery();
+                    
+                    showToast(`Added :${cleanName}: to gallery!`, 'success');
+                    if (emojiNameInput) emojiNameInput.value = '';
+                });
+            }
+        }
+
+        // Run setup safely once DOM elements are ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+
+        // --- Tool Switching ---
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            if (tool === 'wand') {
+                const wandBtn = document.getElementById('tool-wand');
+                const wandSettings = document.getElementById('wand-settings');
+                const eraserSettings = document.getElementById('eraser-settings');
+                const instruction = document.getElementById('tool-instruction');
+                
+                if (wandBtn) wandBtn.classList.add('active');
+                if (wandSettings) wandSettings.classList.remove('hidden');
+                if (eraserSettings) eraserSettings.classList.add('hidden');
+                if (instruction) instruction.textContent = 'Click background color to erase';
+                if (canvas) canvas.style.cursor = 'crosshair';
+            } else {
+                const eraserBtn = document.getElementById('tool-eraser');
+                const wandSettings = document.getElementById('wand-settings');
+                const eraserSettings = document.getElementById('eraser-settings');
+                const instruction = document.getElementById('tool-instruction');
+
+                if (eraserBtn) eraserBtn.classList.add('active');
+                if (wandSettings) wandSettings.classList.add('hidden');
+                if (eraserSettings) eraserSettings.classList.remove('hidden');
+                if (instruction) instruction.textContent = 'Click and drag to erase background';
+                if (canvas) canvas.style.cursor = 'cell';
+            }
+        }
+
+        // --- Image Upload & Setup ---
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                showToast('Please upload a valid image file.', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const MAX_SIZE = 320;
+                    let w = img.width;
+                    let h = img.height;
+                    
+                    if (w > MAX_SIZE || h > MAX_SIZE) {
+                        const ratio = Math.min(MAX_SIZE / w, MAX_SIZE / h);
+                        w = Math.floor(w * ratio);
+                        h = Math.floor(h * ratio);
+                    }
+
+                    if (canvas && ctx) {
+                        canvas.width = w;
+                        canvas.height = h;
+                        ctx.clearRect(0, 0, w, h);
+                        ctx.drawImage(img, 0, 0, w, h);
+                        
+                        currentImage = img;
+                        originalImageData = ctx.getImageData(0, 0, w, h);
+                        historyStack = [];
+                        saveState(); // Save initial clean state
+                    }
+
+                    let defaultName = file.name.split('.')[0].replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+                    if (emojiNameInput) emojiNameInput.value = defaultName;
+
+                    showEditorPage();
+                    if (editorTools) editorTools.classList.remove('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // --- Undo / History System ---
+        function saveState() {
+            if (!ctx || !canvas) return;
+            if (historyStack.length > 15) historyStack.shift();
+            historyStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        }
+
+        function undo() {
+            if (historyStack.length > 1 && ctx) {
+                historyStack.pop(); // Remove current
+                const previous = historyStack[historyStack.length - 1];
+                ctx.putImageData(previous, 0, 0);
+                showToast('Undo applied', 'success');
+            } else {
+                showToast('No more steps to undo', 'error');
+            }
+        }
+
+        window.addEventListener('mouseup', () => {
+            if (isDrawing) {
+                isDrawing = false;
+                saveState();
+            }
+        });
+
+        // --- Keyboard Shortcuts ---
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+                e.preventDefault();
+                undo();
+            }
+        });
+
+        function getCanvasCoords(e) {
+            if (!canvas) return { x: 0, y: 0 };
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            return {
+                x: Math.floor((e.clientX - rect.left) * scaleX),
+                y: Math.floor((e.clientY - rect.top) * scaleY)
+            };
+        }
+
+        // --- Magic Wand BG Removal (Contiguous Flood Fill) ---
+        function processWandClick(e) {
+            if (!ctx || !canvas) return;
+            const { x, y } = getCanvasCoords(e);
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const startIdx = (y * width + x) * 4;
+            const targetR = data[startIdx];
+            const targetG = data[startIdx + 1];
+            const targetB = data[startIdx + 2];
+            const targetA = data[startIdx + 3];
+
+            if (targetA === 0) return; // Already transparent
+
+            const tolerance = toleranceSlider ? parseInt(toleranceSlider.value) : 40;
+            const visited = new Uint8Array(width * height);
+            const queue = [x + y * width];
+
+            function colorMatch(idx) {
+                if (data[idx + 3] === 0) return false;
+                const dist = Math.sqrt(
+                    Math.pow(data[idx] - targetR, 2) +
+                    Math.pow(data[idx + 1] - targetG, 2) +
+                    Math.pow(data[idx + 2] - targetB, 2)
+                );
+                return dist <= tolerance;
+            }
+
+            // Perform contiguous flood fill for precision removal
+            while (queue.length > 0) {
+                const current = queue.pop();
+                const cx = current % width;
+                const cy = Math.floor(current / width);
+                const idx = (cy * width + cx) * 4;
+
+                if (visited[current]) continue;
+                visited[current] = 1;
+
+                if (colorMatch(idx)) {
+                    data[idx + 3] = 0; // Make transparent
+
+                    // Add neighbors
+                    if (cx > 0) queue.push((cx - 1) + cy * width);
+                    if (cx < width - 1) queue.push((cx + 1) + cy * width);
+                    if (cy > 0) queue.push(cx + (cy - 1) * width);
+                    if (cy < height - 1) queue.push(cx + (cy + 1) * width);
+                }
+            }
+
+            ctx.putImageData(imgData, 0, 0);
+            saveState();
+            showToast('Background region cleared!', 'success');
+        }
+
+        // Manual Brush Eraser
+        function eraseAtPoint(e) {
+            if (!ctx) return;
+            const { x, y } = getCanvasCoords(e);
+            const radius = brushSlider ? parseInt(brushSlider.value) : 15;
+            
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, radius / 2, 0, Math.PI * 2, false);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Auto Crop Canvas Edges
+        function autoCropCanvas() {
+            if (!ctx || !canvas) return;
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+            let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
+
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const alpha = data[(y * canvas.width + x) * 4 + 3];
+                    if (alpha > 0) {
+                        if (x < minX) minX = x;
+                        if (x > maxX) maxX = x;
+                        if (y < minY) minY = y;
+                        if (y > maxY) maxY = y;
+                    }
+                }
+            }
+
+            if (minX >= maxX || minY >= maxY) {
+                showToast('Image is completely transparent', 'error');
+                return;
+            }
+
+            const cropW = maxX - minX + 1;
+            const cropH = maxY - minY + 1;
+            const croppedData = ctx.getImageData(minX, minY, cropW, cropH);
+
+            canvas.width = cropW;
+            canvas.height = cropH;
+            ctx.putImageData(croppedData, 0, 0);
+            saveState();
+            showToast('Auto cropped transparent borders', 'success');
+        }
+
+        // Apply Image Filters
+        function applyFilters() {
+            if (!ctx || !canvas) return;
+            const brightElem = document.getElementById('brightness');
+            const contrastElem = document.getElementById('contrast');
+            const b = brightElem ? parseInt(brightElem.value) : 0;
+            const c = contrastElem ? parseInt(contrastElem.value) : 0;
+            
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+            const factor = (259 * (c + 255)) / (255 * (259 - c));
+
+            for (let i = 0; i < data.length; i += 4) {
+                if (data[i + 3] === 0) continue;
+
+                // Brightness
+                let r = data[i] + b;
+                let g = data[i + 1] + b;
+                let blue = data[i + 2] + b;
+
+                // Contrast
+                r = factor * (r - 128) + 128;
+                g = factor * (g - 128) + 128;
+                blue = factor * (blue - 128) + 128;
+
+                data[i] = Math.min(255, Math.max(0, r));
+                data[i + 1] = Math.min(255, Math.max(0, g));
+                data[i + 2] = Math.min(255, Math.max(0, blue));
+            }
+
+            ctx.putImageData(imgData, 0, 0);
+            saveState();
+            showToast('Visual filters applied', 'success');
+        }
+
+        // --- Save & Gallery Logic ---
+        function renderGallery() {
+            if (!galleryGrid || !emptyState || !emojiCount) return;
+
+            galleryGrid.innerHTML = '';
+            emojiCount.textContent = emojis.length;
+
+            if (emojis.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            emojis.forEach(emoji => {
+                const card = document.createElement('div');
+                card.className = "bg-discord_sidebar rounded-xl border border-discord_darkest overflow-hidden flex flex-col group transition-all hover:-translate-y-1 shadow-md hover:shadow-xl hover:border-discord_blurple/50";
+                
+                card.innerHTML = `
+                    <div class="h-32 checkerboard flex items-center justify-center p-3 relative group-hover:bg-[#36393f] transition-colors">
+                        <img src="${emoji.dataUrl}" alt="${emoji.name}" class="max-h-full max-w-full object-contain drop-shadow-md transition-transform group-hover:scale-105">
+                        
+                        <!-- Actions Overlay -->
+                        <div class="absolute inset-0 bg-discord_darkest/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                            <button onclick="copyEmoji('${emoji.id}')" title="Copy to Discord" class="p-2.5 bg-discord_blurple text-white rounded-xl hover:bg-discord_blurple_hover transition-transform hover:scale-110 shadow-lg flex items-center gap-1 font-bold text-xs">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                                Copy
+                            </button>
+                            <button onclick="deleteEmoji('${emoji.id}')" title="Delete" class="p-2 bg-discord_red/80 text-white rounded-xl hover:bg-discord_red transition-transform hover:scale-110 shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-2.5 bg-discord_darkest border-t border-discord_sidebar flex items-center gap-1">
+                        <span class="text-discord_muted text-xs font-bold">:</span>
+                        <input type="text" value="${emoji.name}" onblur="renameEmoji('${emoji.id}', this.value)" class="w-full bg-transparent text-xs font-bold text-discord_text outline-none focus:text-discord_blurple transition-colors">
+                        <span class="text-discord_muted text-xs font-bold">:</span>
+                    </div>
+                `;
+                galleryGrid.appendChild(card);
+            });
+        }
+
+        // --- Copy to Clipboard with Modal Fallback ---
+        window.copyEmoji = async (id) => {
+            const emoji = emojis.find(e => e.id === id);
+            if (!emoji) return;
+
+            let success = false;
+            if (navigator.clipboard && window.ClipboardItem) {
+                try {
+                    const res = await fetch(emoji.dataUrl);
+                    const blob = await res.blob();
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    await navigator.clipboard.write([item]);
+                    success = true;
+                    showToast(`Copied :${emoji.name}: to Clipboard! Paste into Discord.`, 'success');
+                } catch (e) {
+                    console.warn('Direct image clipboard copy restricted by browser context.', e);
+                }
+            }
+
+            if (!success && copyModal) {
+                if (modalEmojiImg) modalEmojiImg.src = emoji.dataUrl;
+                if (modalEmojiTitle) modalEmojiTitle.textContent = `:` + emoji.name + `:`;
+                if (modalDownloadBtn) {
+                    modalDownloadBtn.href = emoji.dataUrl;
+                    modalDownloadBtn.download = `${emoji.name}.png`;
+                }
+                copyModal.classList.remove('hidden');
+                copyModal.classList.add('flex');
+            }
+        };
+
+        window.deleteEmoji = (id) => {
+            emojis = emojis.filter(e => e.id !== id);
+            saveToStorage();
+            renderGallery();
+            showToast('Emoji removed', 'success');
+        };
+
+        window.clearAllEmojis = () => {
+            if (emojis.length === 0) return;
+            emojis = [];
+            saveToStorage();
+            renderGallery();
+            showToast('Gallery cleared', 'success');
+        };
+
+        window.renameEmoji = (id, newName) => {
+            const emoji = emojis.find(e => e.id === id);
+            if (emoji && newName.trim()) {
+                emoji.name = newName.trim().toLowerCase().replace(/[^a-zA-Z0-9_-]/g, '_');
+                saveToStorage();
+                renderGallery();
+            }
+        };
+
+        // Storage Management
+        function saveToStorage() {
+            try { sessionStorage.setItem('discord_emojis', JSON.stringify(emojis)); } catch (e) {}
+        }
+        function loadFromStorage() {
+            try {
+                const saved = sessionStorage.getItem('discord_emojis');
+                if (saved) emojis = JSON.parse(saved);
+            } catch (e) {}
+        }
+
+        // Toast Notifications
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-6 right-6 px-5 py-3 rounded-xl shadow-2xl text-white text-xs font-bold flex items-center gap-2.5 transition-all duration-300 transform translate-y-10 opacity-0 z-50`;
+            
+            if (type === 'success') {
+                toast.classList.add('bg-discord_green');
+                toast.innerHTML = `<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>${message}</span>`;
+            } else {
+                toast.classList.add('bg-discord_red');
+                toast.innerHTML = `<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <span>${message}</span>`;
+            }
+
+            document.body.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.remove('translate-y-10', 'opacity-0'));
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
